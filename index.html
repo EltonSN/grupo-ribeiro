@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grupo Ribeiro | Serviços confiáveis perto de você</title>
+  <meta name="description" content="Encontre profissionais como eletricista, bombeiro, pedreiro e mecânico. Compare serviços, valores aproximados e fale no WhatsApp para solicitar orçamento."/>
+  <meta name="theme-color" content="#1e3a8a" />
+  <link rel="preload" as="image" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">
+  <style>
+    :root{
+      --blue-900:#0b2a6b; /* título/CTA */
+      --blue-800:#1e3a8a; /* header/footer */
+      --blue-600:#2563eb; /* botões */
+      --gray-900:#111827; /* texto principal */
+      --gray-700:#374151; /* texto secundário */
+      --gray-400:#9ca3af; /* bordas suaves */
+      --gray-100:#f3f4f6; /* fundos */
+      --white:#ffffff;
+      --red-500:#ef4444; /* destaque */
+      --radius:16px;
+      --shadow:0 10px 20px rgba(0,0,0,.08);
+    }
+    /* Reset e base acessível */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; color:var(--gray-900); background:var(--white)}
+    img{max-width:100%;height:auto}
+    a{color:inherit}
+    :focus-visible{outline:3px solid var(--red-500); outline-offset:2px}
+    [hidden]{display:none!important}
+
+    /* Header */
+    .topbar{position:sticky;top:0;z-index:50;background:var(--blue-800);color:var(--white);box-shadow:var(--shadow)}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    .topbar-row{display:flex;gap:16px;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .brand svg{width:36px;height:36px}
+    .brand strong{font-size:1.05rem;letter-spacing:.3px}
+
+    .search{flex:1;display:flex;align-items:center;background:var(--white);border-radius:999px;padding:8px 12px;gap:10px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+    .search input{flex:1;border:0;outline:0;font-size:1rem;background:transparent}
+    .search button{border:0;background:var(--blue-600);color:var(--white);padding:10px 14px;border-radius:999px;cursor:pointer}
+
+    /* Hero */
+    .hero{background:linear-gradient(180deg, rgba(30,58,138,.08), transparent);padding:32px 0}
+    .hero h1{font-size:clamp(1.4rem, 2.5vw + 1rem, 2.2rem);color:var(--blue-900);margin:0 0 6px}
+    .hero p{margin:0;color:var(--gray-700)}
+    .cta-row{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:10px 16px;border:1px solid transparent;font-weight:600;cursor:pointer;text-decoration:none}
+    .btn-primary{background:var(--blue-600);color:var(--white)}
+    .btn-outline{background:transparent;border-color:var(--blue-600);color:var(--blue-600)}
+
+    /* Filtros rápidos */
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    .chip{border:1px solid var(--gray-400);border-radius:999px;padding:6px 12px;cursor:pointer;background:var(--white)}
+    .chip[aria-pressed="true"]{background:var(--blue-600);border-color:var(--blue-600);color:var(--white)}
+
+    /* Cards */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:24px}
+    .card{grid-column:span 12;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;display:flex;gap:14px;align-items:flex-start;border:1px solid #e5e7eb}
+    .card img,.card .icon{width:56px;height:56px;border-radius:12px;background:var(--gray-100);display:inline-grid;place-items:center}
+    .card h3{margin:0 0 6px;font-size:1.1rem}
+    .card p{margin:0 0 10px;color:var(--gray-700)}
+    .price{font-weight:700;color:var(--blue-900)}
+    .card-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+
+    /* Layout responsivo */
+    @media (min-width:640px){
+      .card{grid-column:span 6}
+    }
+    @media (min-width:960px){
+      .card{grid-column:span 4}
+    }
+
+    /* Floating WhatsApp */
+    .whatsapp{position:fixed;bottom:20px;right:20px;z-index:60}
+    .wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#000;border-radius:999px;padding:12px 16px;text-decoration:none;box-shadow:var(--shadow);font-weight:700}
+
+    /* Rodapé */
+    footer{background:var(--blue-800);color:var(--white);margin-top:40px}
+    .footer-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .footer-col{grid-column:span 12}
+    .footer-col a{color:var(--white);text-decoration:none}
+    .copyright{border-top:1px solid rgba(255,255,255,.15);margin-top:16px;padding-top:16px;color:#e5e7eb}
+    @media (min-width:700px){
+      .footer-col{grid-column:span 4}
+    }
+
+    /* Preferências do usuário */
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto}
+    }
+  </style>
+  <script>
+    // Dados dos serviços (poderia vir de uma API)
+    const SERVICES = [
+      { id: 'eletricista', nome: 'Eletricista', valor: 120, unidade:'visita',
+        descricao: 'Instalação e reparo elétrico residencial e comercial.',
+        tags:['instalação','quadro elétrico','tomada','disjuntor'],
+        icon: 'bolt'},
+      { id: 'bombeiro-hidraulico', nome: 'Bombeiro Hidráulico', valor: 110, unidade:'visita',
+        descricao: 'Conserto de vazamentos, troca de registros e desentupimentos.',
+        tags:['encanador','vazamento','torneira','pvc'], icon: 'water'},
+      { id: 'pedreiro', nome: 'Pedreiro', valor: 180, unidade:'dia',
+        descricao: 'Alvenaria, reboco, assentamento e pequenas reformas.',
+        tags:['obra','reforma','alvenaria'], icon: 'brick'},
+      { id: 'mecanico', nome: 'Mecânico', valor: 150, unidade:'diagnóstico',
+        descricao: 'Diagnóstico e manutenção preventiva de automóveis.',
+        tags:['carro','motor','óleo','freio'], icon: 'wrench'},
+      { id: 'pintor', nome: 'Pintor', valor: 12, unidade:'m²',
+        descricao: 'Pintura interna/externa com preparação de superfície.',
+        tags:['tinta','massa corrida','acabamento'], icon: 'paint'},
+      { id: 'marceneiro', nome: 'Marceneiro', valor: 250, unidade:'módulo',
+        descricao: 'Móveis sob medida, reparos e ajustes de dobradiças.',
+        tags:['móveis','mdf','madeira'], icon: 'saw'},
+      { id: 'jardineiro', nome: 'Jardineiro', valor: 100, unidade:'visita',
+        descricao: 'Poda, adubação, manutenção e paisagismo leve.',
+        tags:['grama','poda','adubo'], icon: 'leaf'},
+      { id: 'limpeza', nome: 'Limpeza Residencial', valor: 180, unidade:'diária',
+        descricao: 'Limpeza completa com foco em cozinha, banheiros e áreas comuns.',
+        tags:['faxina','diarista','higienização'], icon: 'sparkle'},
+      { id: 'ti-suporte', nome: 'Suporte de TI', valor: 120, unidade:'hora',
+        descricao: 'Formatação, backup, redes Wi‑Fi e configuração de dispositivos.',
+        tags:['computador','rede','wifi'], icon: 'chip'}
+    ];
+
+    const ICONS = {
+      bolt:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      water:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3s7 8 7 12a7 7 0 11-14 0c0-4 7-12 7-12z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      brick:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 12h18M7.5 6v6M16.5 12v6" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      wrench:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M21 7a6 6 0 01-8.9 5.3L6 18.4a2.5 2.5 0 11-3.5-3.5l6.1-6.1A6 6 0 1121 7z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      paint:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 13h10a3 3 0 003-3V7a3 3 0 00-3-3H7a3 3 0 00-3 3v6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 13v5a3 3 0 106 0v-2a3 3 0 00-3-3h-3z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      saw:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M3 20l8-8 10-2-2 10-8 2-8-2z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      leaf:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20 4c-8 0-14 6-14 14 4 0 8-2 11-5s5-7 3-9z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      sparkle:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+      chip:`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="5" y="7" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 7V3M15 7V3M9 21v-4M15 21v-4M3 9h4M17 9h4M3 15h4M17 15h4" stroke="currentColor" stroke-width="1.5"/></svg>`
+    };
+
+    document.addEventListener('DOMContentLoaded',()=>{
+      const list = document.getElementById('service-list');
+      const input = document.getElementById('search-input');
+      const button = document.getElementById('search-button');
+      const chips = document.querySelectorAll('.chip');
+
+      function formatPrice(v){
+        return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})
+      }
+
+      function createCard(svc){
+        const li = document.createElement('article');
+        li.className='card';
+        li.setAttribute('data-tags', svc.tags.join(' '));
+        li.innerHTML = `
+          <div class="icon" aria-hidden="true">${ICONS[svc.icon] || ''}</div>
+          <div>
+            <h3>${svc.nome}</h3>
+            <p>${svc.descricao}</p>
+            <div class="price" aria-label="Valor aproximado">A partir de ${formatPrice(svc.valor)} <small>/ ${svc.unidade}</small></div>
+            <div class="card-cta">
+              <a class="btn btn-primary" href="https://wa.me/5531972224543?text=${encodeURIComponent('Olá! Gostaria de solicitar orçamento para '+svc.nome)}" target="_blank" rel="noopener" aria-label="Solicitar orçamento no WhatsApp para ${svc.nome}">Solicitar orçamento</a>
+              <a class="btn btn-outline" href="#contato" aria-label="Fale conosco sobre ${svc.nome}">Fale conosco</a>
+            </div>
+          </div>`;
+        return li;
+      }
+
+      function render(items){
+        list.innerHTML='';
+        const frag=document.createDocumentFragment();
+        items.forEach(s=>frag.appendChild(createCard(s)));
+        list.appendChild(frag);
+      }
+
+      function search(q){
+        const term = q.trim().toLowerCase();
+        const filtered = SERVICES.filter(s =>
+          s.nome.toLowerCase().includes(term) ||
+          s.descricao.toLowerCase().includes(term) ||
+          s.tags.some(t=>t.includes(term))
+        );
+        render(filtered);
+      }
+
+      // Render inicial
+      render(SERVICES);
+
+      // Pesquisa com debounce
+      let t; 
+      input.addEventListener('input', (e)=>{
+        clearTimeout(t); t = setTimeout(()=>search(e.target.value), 120);
+      });
+      input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ search(input.value) }});
+      button.addEventListener('click', ()=>search(input.value));
+
+      // Chips de filtro rápido
+      chips.forEach(ch=>{
+        ch.addEventListener('click',()=>{
+          const active = ch.getAttribute('aria-pressed')==='true';
+          chips.forEach(c=>c.setAttribute('aria-pressed','false'));
+          ch.setAttribute('aria-pressed', String(!active));
+          const key = !active ? ch.dataset.key : '';
+          input.value = key; search(key);
+          input.focus();
+        })
+      })
+    });
+  </script>
+</head>
+<body>
+  <!-- Barra superior com marca, busca e CTA -->
+  <header class="topbar" role="banner">
+    <div class="container topbar-row">
+      <a href="#" class="brand" aria-label="Página inicial - Grupo Ribeiro">
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="white" opacity=".1"/><path d="M10 30c7-1 9-13 14-13s7 12 14 13" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="24" r="5" fill="#fff"/></svg>
+        <strong>Grupo Ribeiro</strong>
+      </a>
+      <form class="search" role="search" aria-label="Buscar serviços" onsubmit="return false">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M11 3a8 8 0 105.3 14.1l3.6 3.6" stroke="#6b7280" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+        <label for="search-input" class="sr-only" style="position:absolute;left:-9999px">Buscar serviços</label>
+        <input id="search-input" type="search" placeholder="Busque por eletricista, pedreiro, mecânico..." aria-controls="service-list" />
+        <button id="search-button" class="btn" type="button" aria-label="Buscar">Buscar</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- Seção principal: hero e chips -->
+  <main class="container" id="conteudo" role="main">
+    <section class="hero" aria-labelledby="headline">
+      <h1 id="headline">Serviços confiáveis, valores honestos e atendimento rápido</h1>
+      <p>Compare opções, veja valores aproximados e fale no WhatsApp para fechar o serviço.</p>
+      <div class="cta-row">
+        <a href="#servicos" class="btn btn-primary" aria-label="Ver serviços">Ver serviços</a>
+        <a href="#contato" class="btn btn-outline" aria-label="Fale conosco">Fale conosco</a>
+      </div>
+      <div class="chips" role="group" aria-label="Filtros rápidos">
+        <button type="button" class="chip" data-key="eletricista" aria-pressed="false">Eletricista</button>
+        <button type="button" class="chip" data-key="bombeiro" aria-pressed="false">Bombeiro hidráulico</button>
+        <button type="button" class="chip" data-key="pedreiro" aria-pressed="false">Pedreiro</button>
+        <button type="button" class="chip" data-key="mecânico" aria-pressed="false">Mecânico</button>
+      </div>
+    </section>
+
+    <!-- Grid de serviços -->
+    <section id="servicos" aria-labelledby="titulo-servicos">
+      <h2 id="titulo-servicos" style="margin:0 0 10px;color:var(--blue-900)">Nossos serviços</h2>
+      <p style="margin:0 0 16px;color:var(--gray-700)">Valores são estimativas médias para referência. O preço final pode variar conforme avaliação.</p>
+      <div id="service-list" class="grid" role="list"></div>
+    </section>
+
+    <!-- Seção contato -->
+    <section id="contato" aria-labelledby="ttl-contato" style="margin-top:32px">
+      <h2 id="ttl-contato" style="margin:0 0 10px;color:var(--blue-900)">Precisa de ajuda agora?</h2>
+      <p style="margin:0;color:var(--gray-700)">Chame no WhatsApp e descreva rapidamente o problema. Em minutos retornamos com a disponibilidade.</p>
+      <p style="margin:8px 0 0"><a class="btn btn-primary" href="https://wa.me/5531972224543?text=Olá!%20Gostaria%20de%20um%20orçamento." target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+    </section>
+  </main>
+
+  <!-- WhatsApp flutuante sempre acessível -->
+  <div class="whatsapp" aria-live="polite">
+    <a class="wa-btn" href="https://wa.me/5531972224543?text=Olá!%20Vim%20pelo%20site%20e%20preciso%20de%20ajuda." target="_blank" rel="noopener" aria-label="Abrir conversa no WhatsApp">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2A10 10 0 002 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.3A10 10 0 1012 2zm0 2a8 8 0 110 16 8 8 0 010-16zm-3.2 3.6c-.2 0-.5.2-.6.4-.2.4-.5 1.1-.5 1.8 0 2.6 2.4 5.1 5 5.1.8 0 1.6-.3 2-.6.2-.1.4-.3.4-.6 0-.2 0-.3-.2-.4l-1.2-.7c-.2-.1-.4-.1-.6 0l-.5.3c-.2.1-.4.1-.6 0-1.1-.6-2-1.5-2.5-2.5-.1-.2-.1-.4 0-.6l.3-.5c.1-.2.1-.4 0-.6l-.7-1.2c-.1-.2-.2-.2-.4-.2z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+
+  <!-- Rodapé com informações -->
+  <footer role="contentinfo">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <h3 style="margin:0 0 8px">Grupo Ribeiro</h3>
+        <p style="margin:0;color:#e5e7eb">Serviços com qualidade e transparência. Atendimento de segunda a sábado, 08h às 18h.</p>
+      </div>
+      <div class="footer-col">
+        <h3 style="margin:0 0 8px">Contato</h3>
+        <p style="margin:0">Telefone: (31) 7222-4543<br/>E-mail: contato@outlook.com</p>
+      </div>
+      <div class="footer-col">
+        <h3 style="margin:0 0 8px">Redes</h3>
+        <p style="margin:0"><a href="#">Instagram</a> • <a href="#">Facebook</a> • <a href="#">LinkedIn</a></p>
+      </div>
+      <div class="footer-col copyright">
+        © <span id="year"></span> Grupo Ribeiro. Todos os direitos reservados.
+      </div>
+    </div>
+    <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+  </footer>
+
+  <!-- Dados estruturados -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Grupo Ribeiro",
+      "url": "https://example.com",
+      "telephone": "+55 31 7222-4543",
+      "areaServed": "Brasil",
+      "sameAs": ["https://instagram.com/example","https://facebook.com/example"],
+      "makesOffer": [
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Eletricista"},"price":"120","priceCurrency":"BRL"},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Bombeiro hidráulico"},"price":"110","priceCurrency":"BRL"},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Pedreiro"},"price":"180","priceCurrency":"BRL"}
+      ]
+    }
+  </script>
+</body>
+</html>

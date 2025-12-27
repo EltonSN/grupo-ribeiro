@@ -1,0 +1,5 @@
+/* Reset dos estilos padrão do Vite para não afetar o layout */
+:root { color-scheme: light; }
+html, body, #root { height: 100%; }
+body { margin: 0; }
+#root { isolation: isolate; } /* evita vazamentos de z-index */
